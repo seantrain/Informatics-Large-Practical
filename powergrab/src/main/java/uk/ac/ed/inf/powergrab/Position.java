@@ -121,7 +121,7 @@ public class Position {
 		return newPosition;
 	}
 	
-public static String IntToDirection(int a) {
+	public static String IntToDirection(int a) {
 		
 		if (a == 0) {
 			return "N";
@@ -205,6 +205,59 @@ public static String IntToDirection(int a) {
 		}
 		
 		return false;
+		
+	}
+	
+	//returns direction from one position to another
+	public int direction(Position destination) {
+		
+		int travelin = 0;
+		
+		double xlong = destination.longitude - longitude;
+		double ylat = destination.latitude - latitude;
+		
+		double d = Math.atan2(ylat,xlong);
+		
+		d = Math.toDegrees(d);
+		
+		d = (d + 360) % 360;
+		
+		if ( d > 348.75 || d <= 11.25) {
+			travelin = 4;
+		} else if (d > 11.25 && d <= 33.75) {
+			travelin = 3;
+		} else if (d > 33.75 && d <= 56.25) {
+			travelin = 2;
+		} else if (d > 56.25 && d <= 78.75) {
+			travelin = 1;
+		} else if (d > 78.75 && d <= 101.25) {
+			travelin = 0;
+		} else if (d > 101.25 && d <= 123.75) {
+			travelin = 15;
+		} else if (d > 123.75 && d <= 146.25) {
+			travelin = 14;
+		} else if (d > 146.25 && d <= 168.75) {
+			travelin = 13;
+		} else if (d > 168.75 && d <= 191.25) {
+			travelin = 12;
+		} else if (d > 191.25 && d <= 213.75) {
+			travelin = 11;
+		} else if (d > 213.75 && d <= 236.25) {
+			travelin = 10;
+		} else if (d > 236.25 && d <= 258.75) {
+			travelin = 9;
+		} else if (d > 258.75 && d <= 281.25) {
+			travelin = 8;
+		} else if (d > 281.25 && d <= 303.75) {
+			travelin = 7;
+		} else if (d > 303.75 && d <= 326.25) {
+			travelin = 6;
+		} else if (d > 326.25 && d <= 348.75) {
+			travelin = 5;
+		}
+		
+		//System.out.println("Direction moving in: " + Stateless.IntToDirection(travelin));
+		return travelin;
 		
 	}
 	

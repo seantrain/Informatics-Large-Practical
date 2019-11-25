@@ -29,7 +29,8 @@ public class App
 			for (int i = 0; i < posLocationCount; i++) {
 				Stateful newStateful = new Stateful(newMap, seed, startlat, startlong, i);
 				totalresults[i] = newStateful.results;
-				System.out.println("Start " + i + ": coins: " + newStateful.results.totalcoins + " moves: " + newStateful.results.numberofmoves);
+				
+				//System.out.println("Start " + i + ": coins: " + newStateful.results.totalcoins + " moves: " + newStateful.results.numberofmoves);
 				
 			}
 			

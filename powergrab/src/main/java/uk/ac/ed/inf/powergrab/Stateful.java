@@ -15,7 +15,8 @@ public class Stateful {
 	public double maxPower = 0;
 	public int stuckcounter = 0;
 	public int start;
-	public ArrayList<Integer> visitedStations = new ArrayList<Integer>();
+	public ArrayList<String> visitedStations = new ArrayList<String>();
+	public ArrayList<Powerstation> skippedStations = new ArrayList<Powerstation>();
 	public ArrayList<Powerstation> locations = new ArrayList<Powerstation>();
 	public ArrayList<ArrayList<Powerstation>> sepLocations = new ArrayList<ArrayList<Powerstation>>();
 	public ArrayList<Powerstation> posLocations = new ArrayList<Powerstation>();
@@ -40,73 +41,34 @@ public class Stateful {
 		
 	}
 	
-	
-	public int Closest(Position currentPos) {
+	//must go to closest and charge, even if 0
+	public int Closest(Position currentPos, int mode) {
 		
 		double smallestDistance = 1000;
 		int index = 0;
 		
-		
-		for (int i = 0; i < posLocations.size(); i++) {
-			double newdistance = currentPos.distanceBetween(posLocations.get(i).pos);
-			if (smallestDistance > newdistance && !visitedStations.contains(i)) {
-				smallestDistance = newdistance;
-				index = i;
+		//returns closest positive powerstation thats not been visited or skipped
+		if (mode == 0) {
+			for (int i = 0; i < posLocations.size(); i++) {
+				double newdistance = currentPos.distanceBetween(posLocations.get(i).pos);
+				if (smallestDistance > newdistance && !visitedStations.contains(posLocations.get(i).id) && !skippedStations.contains(posLocations.get(i))) {
+					smallestDistance = newdistance;
+					index = i;
+				}
 			}
+			
+			return index;
+		//returns closest powerstation that has been skipped
+		} else {
+			for (int i = 0; i < skippedStations.size(); i++) {
+				double newdistance = currentPos.distanceBetween(skippedStations.get(i).pos);
+				if (smallestDistance > newdistance) {
+					smallestDistance = newdistance;
+					index = i;
+				}
+			}
+			return index;
 		}
-		return index;
-		
-	}
-	
-	public int direction(Position currentPos, Position destination) {
-		
-		int travelin = 0;
-		
-		double xlong = destination.longitude - currentPos.longitude;
-		double ylat = destination.latitude - currentPos.latitude;
-		
-		double d = Math.atan2(ylat,xlong);
-		
-		d = Math.toDegrees(d);
-		
-		d = (d + 360) % 360;
-		
-		if ( d > 348.75 || d <= 11.25) {
-			travelin = 4;
-		} else if (d > 11.25 && d <= 33.75) {
-			travelin = 3;
-		} else if (d > 33.75 && d <= 56.25) {
-			travelin = 2;
-		} else if (d > 56.25 && d <= 78.75) {
-			travelin = 1;
-		} else if (d > 78.75 && d <= 101.25) {
-			travelin = 0;
-		} else if (d > 101.25 && d <= 123.75) {
-			travelin = 15;
-		} else if (d > 123.75 && d <= 146.25) {
-			travelin = 14;
-		} else if (d > 146.25 && d <= 168.75) {
-			travelin = 13;
-		} else if (d > 168.75 && d <= 191.25) {
-			travelin = 12;
-		} else if (d > 191.25 && d <= 213.75) {
-			travelin = 11;
-		} else if (d > 213.75 && d <= 236.25) {
-			travelin = 10;
-		} else if (d > 236.25 && d <= 258.75) {
-			travelin = 9;
-		} else if (d > 258.75 && d <= 281.25) {
-			travelin = 8;
-		} else if (d > 281.25 && d <= 303.75) {
-			travelin = 7;
-		} else if (d > 303.75 && d <= 326.25) {
-			travelin = 6;
-		} else if (d > 326.25 && d <= 348.75) {
-			travelin = 5;
-		}
-		
-		//System.out.println("Direction moving in: " + Stateless.IntToDirection(travelin));
-		return travelin;
 		
 	}
 	
@@ -130,7 +92,7 @@ public class Stateful {
 		
 		do {
 			
-			int nextdirection = direction(pos, destination);
+			int nextdirection = pos.direction(destination);
 			int newdirection = nextdirection;
 			
 			if (repeatdetected == 0) {
@@ -147,8 +109,8 @@ public class Stateful {
 				//System.out.println("Distance between: " + pos.distanceBetween(destination));
 				set.add(nextdirection);
 				tempMoves++;
-				
-			} else if (repeatdetected == 1) {
+			//unnreachable code, testing ///////////////////////////////////////////
+			} else if (repeatdetected == 100) {
 				//get all the negative locations within disance to the new position
 				//if you traveled in the new direction
 				ArrayList<Integer> negativeInRange = new ArrayList<Integer>();
@@ -177,6 +139,7 @@ public class Stateful {
 					returnvalue.positionset = poset;
 					returnvalue.movesused = tempMoves;
 					returnvalue.skip = skip;
+					skippedStations.add(posLocations.get(closest));
 					return returnvalue;
 				} else {
 					pos = pos.nextPosition(newdirection);
@@ -196,22 +159,23 @@ public class Stateful {
 					}
 					
 				}
-			}
-			else if (repeatdetected == 2) {
+			} else if (repeatdetected == 2) {
 				skip = true;
+				skippedStations.add(posLocations.get(closest));
 				returnvalue.directionset = set;
 				returnvalue.updatedpos = poset.get(poset.size()-1);
 				returnvalue.positionset = poset;
 				returnvalue.movesused = tempMoves;
 				returnvalue.skip = skip;
+				if (start == 14) {
+					System.out.println("Station: " + closest + " added to skippedStations, size: " + skippedStations.size());
+				}
 				return returnvalue;
 			}
-			
+			//if the drone gets stuck, skip that power station till later
 			if (checkStuck(currentMoves)) {
-				//System.out.println("Drone gets stuck! Go through negative");
 				repeatdetected = 2;
 				stuckcounter++;
-				
 			}
 			
 		} while (!pos.withinDistance(destination) && moves-tempMoves > 0);
@@ -223,15 +187,14 @@ public class Stateful {
 		returnvalue.positionset = poset;
 		returnvalue.movesused = tempMoves;
 		returnvalue.skip = skip;
-		
-		
-		
+
 		return returnvalue;
 	}
 	
 	public int avoidNegative(Position currentPos, Position destination, int currentDirection) {
 		
 		ArrayList<Integer> cantgo = new ArrayList<Integer>();
+		//if the drone cannot go in any direction without going negative, go in the original direction
 		int newDirection = currentDirection;
 		//will always be a distance smaller than 1000 since map length is < 1000
 		double smallestDistance = 1000;
@@ -304,63 +267,103 @@ public class Stateful {
 		ArrayList<Position> moveslist = new ArrayList<Position>();
 		
 		int skipcount = 0;
-		
+		//stopped for exiting the loop when all stations have been visited/skipped
+		int stop = 0;
+		int totalcoins = 0;
 		//this computes the moves to the first powerstation specified by start
 		//this is done since it is possible to get a better result by choosing a different powerstation to initially visit.
 		//the game is simulated for all the number of powerstations, choosing a different start station each time
 		//the optimal start powerstation will be determined by the one with the most coins, most power and least number of moves
 		
-		DirectionWithPos startset = setofdirections(currentPos, start);
-		visitedStations.add(start);
-		currentPos = startset.updatedpos;
-		moves -= startset.movesused;
+		DirectionWithPos temp = setofdirections(currentPos, start);
 		
-		if (!startset.skip) {
+		if (start == 14) {
+			System.out.println("\n Station 14: \n");
+		}
+		if (!temp.skip) {
 			coins+= posLocations.get(start).coins;
 			power+= posLocations.get(start).power;
-		} else {
-			skipcount++;
-		}
-		
-		for (int j = 1; j < startset.positionset.size(); j++) {
-			positionset.add(startset.positionset.get(j));
-		}
-		
-		
-		
-		do {
-			
-			int closest = Closest(currentPos);
-			//System.out.println("Closest station id : " + posLocations.get(closest).id);
-			DirectionWithPos temp = new DirectionWithPos();
-			temp = setofdirections(currentPos, closest);
-			currentPos = temp.updatedpos;
-			moves-= temp.movesused;
-			
-			if (!temp.skip) {
-				coins+= posLocations.get(closest).coins;
-				power+= posLocations.get(closest).power;
-			} else {
-				skipcount++;
-			}
-			
 			for (int j = 1; j < temp.positionset.size(); j++) {
 				positionset.add(temp.positionset.get(j));
 			}
-			
-			//once a state is visited, we dont want to visit again
-			//if we skip a state due to being negative, we dont want to try visit again
-			//so it is still added to the visitedStations arraylist
-			visitedStations.add(closest);
-			//System.out.println(visitedStations.toString());
-			
-			//System.out.println("\nMoves used " + temp.movesused + ", Moves left: " + moves + ", Coins added: " + posLocations.get(closest).coins + "  Power added: " + posLocations.get(closest).power);
-		} while (visitedStations.size() < posLocations.size() && moves > 0 && power > 1.25);
+			visitedStations.add(posLocations.get(start).id);
+			currentPos = temp.updatedpos;
+			moves -= temp.movesused;
+		} else {
+			skipcount++;
+			skippedStations.add(posLocations.get(start));
+		}
 		
+		
+		do {
+			//mode 0 to find closest positive powerstation
+			int closest = Closest(currentPos, 0);
+			//System.out.println("Closest station id : " + posLocations.get(closest).id);
+			temp = setofdirections(currentPos, closest);
+			
+			//if the station is reached (not skipped due to being stuck) values are updated
+			if (!temp.skip && !skippedStations.contains(posLocations.get(closest))) {
+				coins+= posLocations.get(closest).coins;
+				power+= posLocations.get(closest).power;
+				currentPos = temp.updatedpos;
+				moves-= temp.movesused;
+				for (int j = 1; j < temp.positionset.size(); j++) {
+					positionset.add(temp.positionset.get(j));
+				}
+				visitedStations.add(posLocations.get(closest).id);
+				if (start == 14) {
+					System.out.println("Visited station: " + closest + ", in " + temp.movesused + " moves. Stations visited: " + visitedStations.size() + ". Stations left (not skipped): " + (posLocations.size()-visitedStations.size()));
+				}
+			//else station is skipped and added to skippedStation arraylist for further checking 
+			} else if (temp.skip && !skippedStations.contains(posLocations.get(closest))){
+				skipcount++;
+				skippedStations.add(posLocations.get(closest));
+				System.out.println("Station skipped: " + closest);
+				
+			}
+			
+			if (skippedStations.size() + visitedStations.size() == posLocations.size()) {
+				if (skippedStations.size() == 0) {
+					stop = 1;
+				} else {
+					//mode 1 (anything but 0) for finding closest for skipped powerstations
+					do {
+						//mode 1 (anything but 0) for finding closest for skipped powerstations
+						closest = Closest(currentPos, 1);
+						temp = setofdirections(currentPos, closest);
+						if (!temp.skip) {
+							coins+= skippedStations.get(closest).coins;
+							power+= skippedStations.get(closest).power;
+							currentPos = temp.updatedpos;
+							moves-= temp.movesused;
+							for (int j = 1; j < temp.positionset.size(); j++) {
+								positionset.add(temp.positionset.get(j));
+							}
+							visitedStations.add(posLocations.get(closest).id);
+							skippedStations.remove(closest);
+							skipcount--;
+							System.out.println("Coins gained from skipped station: " + closest);
+						} else if(temp.skip) {
+							System.out.println("Cannot access skipped stations: " + skippedStations.get(closest).id);
+							skippedStations.remove(closest);
+						}
+					} while (skippedStations.size() != 0);
+				stop = 1;
+				}
+			}
+			if (start == 14 && !temp.skip) {
+				//System.out.println("\nMoves used " + temp.movesused + ", Moves left: " + moves + ", Coins added: " + posLocations.get(closest).coins + "  Power added: " + posLocations.get(closest).power);
+				totalcoins+= posLocations.get(closest).coins;
+				
+			}
+		} while (stop == 0 && moves > 0 && power > 1.25);
+		
+		System.out.println("Coins actually collected:" + totalcoins);
+		System.out.println("Stations left to visit: " + (posLocations.size()-visitedStations.size()));
 		int[] last2moves = new int[2];
 		
-		last2moves[0] = direction(currentPos, positionset.get(positionset.size()-2));
-		last2moves[1] = direction(currentPos.nextPosition(last2moves[0]), currentPos);
+		last2moves[0] = currentPos.direction(positionset.get(positionset.size()-2));
+		last2moves[1] = currentPos.nextPosition(last2moves[0]).direction(currentPos);
 		int movesholder = moves;
 		//go back and forth to use up all 250 moves
 		do {
@@ -370,8 +373,7 @@ public class Stateful {
 			currentPos = currentPos.nextPosition(last2moves[1]);
 			positionset.add(currentPos);
 			movesholder--;
-			
-			
+
 		} while (movesholder > 0);
 		
 		
@@ -401,7 +403,9 @@ public class Stateful {
 		//	System.out.println("\nACCURACY: " + (coins/maxCoins)*100 + "%");
 		//}
 		//System.out.println("-------------------------END-------------------------");
-		
+		if (start == 14) {
+			System.out.println("\n\n\n");
+		}
 	}
 
 }
