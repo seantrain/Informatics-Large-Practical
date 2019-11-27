@@ -8,7 +8,7 @@ public class App
 {
     public static void main(String[] args) throws MalformedURLException, IOException, IllegalArgumentException {
     	
-Map newMap = new Map(args[0], args[1], args[2]);
+Map newMap = new Map(args[0], args[1], args[2], args[6]);
     	
 		double startlat = Double.parseDouble(args[3]);
 		double startlong = Double.parseDouble(args[4]);
@@ -32,7 +32,7 @@ Map newMap = new Map(args[0], args[1], args[2]);
 				totalresults[i] = newStateful.results;
 				maxcoins = newStateful.maxCoins;
 				maxpower = newStateful.maxPower;
-				//System.out.println("Start " + i + ": coins: " + newStateful.results.totalcoins + " moves: " + newStateful.results.numberofmoves);
+				System.out.println("Start " + i + ": coins: " + newStateful.results.totalcoins + " moves: " + newStateful.results.numberofmoves + " moves list size:" + newStateful.moveslist.size());
 				
 			}
 			
@@ -48,13 +48,14 @@ Map newMap = new Map(args[0], args[1], args[2]);
 				}
 			}
 			
-			//the run of the drone that will be mapped and where powerstation values are updated when charging from
+			//the best drone simulation based on staring powerstation to charge from
 			Stateful officialrun = new Stateful(newMap, startlat, startlong, maxver, true);
+			
 
 			System.out.println("\n---------------BEST DRONE(" + maxver + ") RESULTS----------------");
 			System.out.println("Stuck drone: " + max.stuckcounter);
 			System.out.println("Number of moves (initially): " + minmoves);
-			System.out.println("\nCoins collected: " + max.totalcoins + "\nPower collected: " + (max.totalpower-250));
+			System.out.println("\nCoins collected: " + max.totalcoins + "\nPower collected: " + (max.totalpower));
 			System.out.println("\nMax Coins: " + maxcoins + "\nMax Power: " + maxpower);
 			if ((max.totalcoins/maxcoins)*100 > 100 || (max.totalcoins/maxcoins)*100 > 99.999 && (max.totalcoins/maxcoins)*100 < 100) {
 				System.out.println("\nACCURACY: " + 100.0 + "%");

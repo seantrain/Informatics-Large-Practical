@@ -1,5 +1,9 @@
 package uk.ac.ed.inf.powergrab;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Stateful {
@@ -19,7 +23,8 @@ public class Stateful {
 	public ArrayList<Powerstation> skippedStations = new ArrayList<Powerstation>();
 	public ArrayList<String> avoidChecking = new ArrayList<String>();
 	public ArrayList<Position> moveslist = new ArrayList<Position>();
-	
+	public ArrayList<Double> coinholder = new ArrayList<Double>();
+	public ArrayList<Double> powerholder = new ArrayList<Double>();
 	public ArrayList<Powerstation> locations = new ArrayList<Powerstation>();
 	public ArrayList<ArrayList<Powerstation>> sepLocations = new ArrayList<ArrayList<Powerstation>>();
 	public ArrayList<Powerstation> posLocations = new ArrayList<Powerstation>();
@@ -27,7 +32,7 @@ public class Stateful {
 	
 	public Results results = new Results();
 	
-	public Stateful (Map currentmap, double startLat, double startLong, int start, boolean actuallycharge) {
+	public Stateful (Map currentmap, double startLat, double startLong, int start, boolean actuallycharge) throws IOException {
 		
 		this.currentmap = currentmap;
 		this.startLat = startLat;
@@ -94,10 +99,9 @@ public class Stateful {
 		ArrayList<Integer> set = new ArrayList<Integer>();
 		DirectionWithPos returnvalue = new DirectionWithPos();
 		ArrayList<Position> poset = new ArrayList<Position>();
-		ArrayList<Integer> currentMoves = new ArrayList<Integer>();
 		boolean skip = false;
 		Position pos = startpos;
-		poset.add(pos);
+		
 		
 		//System.out.println("Initial distance between: " + pos.distanceBetween(destination));
 		//System.out.println("Initially within distance: " + pos.withinDistance(destination));
@@ -117,30 +121,29 @@ public class Stateful {
 					//If drone is going out of bounds, will return non-out-of-bounds direction
 					newdirection = avoidNegative(pos, destination, nextdirection);						
 				}
-				
 				pos = pos.nextPosition(newdirection);
 				poset.add(pos);
-				currentMoves.add(newdirection);
-				//System.out.println("Distance between: " + pos.distanceBetween(destination));
-				set.add(nextdirection);
+				set.add(newdirection);
+				power -= 1.25;
+				coinholder.add(coins);
+				powerholder.add(power);
 				tempMoves++;
-				
 			} else if (repeatdetected == 2) {
 				skip = true;
-				returnvalue.directionset = set;
-				returnvalue.updatedpos = poset.get(poset.size()-1);
-				returnvalue.positionset = poset;
-				returnvalue.movesused = tempMoves;
+				returnvalue.directionset = null;
+				returnvalue.updatedpos = null;
+				returnvalue.positionset = null;
+				returnvalue.movesused = 0;
 				returnvalue.skip = skip;
 				return returnvalue;
 			}
 			//if the drone gets stuck, skip that power station till later
-			if (checkStuck(currentMoves)) {
+			if (checkStuck(set)) {
 				repeatdetected = 2;
 				stuckcounter++;
 			}
 			
-		} while (!pos.withinDistance(destination) && moves-tempMoves > 0);
+		} while (!pos.withinDistance(destination) && moves-tempMoves > 0 && power > 1.25);
 		
 		//System.out.println("Within Distance NOW!\n");
 
@@ -222,20 +225,17 @@ public class Stateful {
 	}
 
 	
-	public void statefulsim(int start, boolean actuallycharge) {
+	public void statefulsim(int start, boolean actuallycharge) throws IOException {
 		
 		//for testing accuracy of drones coins vs maximum coins on the map
 		for (int i = 0; i < posLocations.size(); i++) {
 			maxCoins += posLocations.get(i).coins;
 			maxPower += posLocations.get(i).power;
 		}
-		
-		
-		
+
 		Position currentPos = new Position(startLat, startLong);
 		
 		ArrayList<Position> positionset = new ArrayList<Position>();
-		ArrayList<Position> moveslist = new ArrayList<Position>();
 		
 		int skipcount = 0;
 		//stopped for exiting the loop when all stations have been visited/skipped
@@ -249,13 +249,15 @@ public class Stateful {
 		if (!temp.skip) {
 			coins+= posLocations.get(start).coins;
 			power+= posLocations.get(start).power;
-			power-= temp.movesused*1.25;
+			
+			positionset.add(currentPos);
+			for (int j = 0; j < temp.positionset.size(); j++) {
+				positionset.add(temp.positionset.get(j));
+			}
+			
 			if (actuallycharge) {
 				posLocations.get(start).coins = 0;
 				posLocations.get(start).power = 0;
-			}
-			for (int j = 0; j < temp.positionset.size(); j++) {
-				positionset.add(temp.positionset.get(j));
 			}
 			visitedStations.add(posLocations.get(start).id);
 			currentPos = temp.updatedpos;
@@ -270,7 +272,7 @@ public class Stateful {
 		
 		do {
 			//check to see if you can go to a skipped station at every successful charge from
-			//an unvisted station
+			//a previously unvisited station
 			if (skippedStations.size() != 0) {
 				checkSkipped = true;
 				avoidChecking.clear();
@@ -287,19 +289,17 @@ public class Stateful {
 					if (temp.skip == false) {
 						coins += skippedStations.get(closest).coins;
 						power+= skippedStations.get(closest).power;
-						power-= temp.movesused*1.25;
 						currentPos = temp.updatedpos;
 						moves-= temp.movesused;
-
-						for (int j = 1; j < temp.positionset.size(); j++) {
+						
+						for (int j = 0; j < temp.positionset.size(); j++) {
 							positionset.add(temp.positionset.get(j));
-							
 						}
+						
 						if (actuallycharge) {
 							skippedStations.get(closest).coins = 0;
 							skippedStations.get(closest).power = 0;
 						}
-						
 						visitedStations.add(skippedStations.get(closest).id);
 						skippedStations.remove(closest);
 						skipcount--;
@@ -330,16 +330,17 @@ public class Stateful {
 					//System.out.println("Visited " + closest);
 					coins+= posLocations.get(closest).coins;
 					power+= posLocations.get(closest).power;
-					power-= temp.movesused*1.25;
 					currentPos = temp.updatedpos;
 					moves-= temp.movesused;
-					for (int j = 1; j < temp.positionset.size(); j++) {
+					for (int j = 0; j < temp.positionset.size(); j++) {
 						positionset.add(temp.positionset.get(j));
 					}
+					
 					if (actuallycharge) {
 						posLocations.get(closest).coins = 0;
 						posLocations.get(closest).power = 0;
 					}
+					
 					visitedStations.add(posLocations.get(closest).id);
 					
 				//else station is skipped and added to skippedStation arraylist for further checking 
@@ -352,6 +353,8 @@ public class Stateful {
 			}
 			
 		} while (visitedStations.size() != posLocations.size() && moves > 0 && power > 1.25);	
+		coinholder.remove(coinholder.size()-1);
+		coinholder.add(coins);
 		
 		int[] last2moves = new int[2];
 		last2moves[0] = currentPos.direction(positionset.get(positionset.size()-2));
@@ -362,13 +365,18 @@ public class Stateful {
 		do {
 			currentPos = currentPos.nextPosition(last2moves[0]);
 			positionset.add(currentPos);
+			coinholder.add(coinholder.get(coinholder.size()-1));
+			power-=1.25;
+			powerholder.add(power);
 			movesholder--;
 			currentPos = currentPos.nextPosition(last2moves[1]);
 			positionset.add(currentPos);
+			coinholder.add(coinholder.get(coinholder.size()-1));
+			power-=1.25;
+			powerholder.add(power);
 			movesholder--;
-
+			
 		} while (movesholder > 0);
-		
 		
 		moveslist = positionset;
 		
@@ -379,7 +387,24 @@ public class Stateful {
 		results.moveslist = moveslist;
 		results.numberofposstations = posLocations.size();
 		
-		
+		if (actuallycharge) {
+			
+			File file = new File(Map.filename);
+			file.delete();
+			FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			for (int i = 1; i < 251; i++) {
+				
+				String filecontent = moveslist.get(i-1).latitude + "," + moveslist.get(i-1).longitude + "," + Position.IntToDirection(moveslist.get(i-1).direction(moveslist.get(i))) + "," + moveslist.get(i).latitude + "," + moveslist.get(i).longitude + "," + coinholder.get(i-1) + "," + powerholder.get(i-1);
+				bw.write(filecontent);
+				if (i != 250) {
+					bw.newLine();
+				}
+			}
+			System.out.println(moveslist.size());
+			System.out.println(coinholder.size());
+	        bw.close();
+		}
 		
 		//for testing purposes: accuracy of the drone
 		//System.out.println("--------------------DRONE " + start + " RESULTS------------------");
