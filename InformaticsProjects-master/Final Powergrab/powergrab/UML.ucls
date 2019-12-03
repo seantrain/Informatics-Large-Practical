@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.3" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="uk.ac.ed.inf.powergrab.App" project="powergrab" 
+    file="/powergrab/src/main/java/uk/ac/ed/inf/powergrab/App.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="113" width="137" x="675" y="36"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="uk.ac.ed.inf.powergrab.Stateful" project="powergrab" 
+    file="/powergrab/src/main/java/uk/ac/ed/inf/powergrab/Stateful.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="413" width="212" x="1284" y="37"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="uk.ac.ed.inf.powergrab.Stateless" project="powergrab" 
+    file="/powergrab/src/main/java/uk/ac/ed/inf/powergrab/Stateless.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="299" width="294" x="830" y="37"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="uk.ac.ed.inf.powergrab.Writemap" project="powergrab" 
+    file="/powergrab/src/main/java/uk/ac/ed/inf/powergrab/Writemap.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="304" x="347" y="37"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="uk.ac.ed.inf.powergrab.DronesMoves" project="powergrab" 
+    file="/powergrab/src/main/java/uk/ac/ed/inf/powergrab/DronesMoves.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="177" width="123" x="670" y="743"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="uk.ac.ed.inf.powergrab.Position" project="powergrab" 
+    file="/powergrab/src/main/java/uk/ac/ed/inf/powergrab/Position.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="246" width="213" x="657" y="1056"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="uk.ac.ed.inf.powergrab.Map" project="powergrab" 
+    file="/powergrab/src/main/java/uk/ac/ed/inf/powergrab/Map.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="336" width="257" x="841" y="522"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="uk.ac.ed.inf.powergrab.ClosestStation" project="powergrab" 
+    file="/powergrab/src/main/java/uk/ac/ed/inf/powergrab/ClosestStation.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="156" width="107" x="497" y="191"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="9" language="java" name="uk.ac.ed.inf.powergrab.Direction" project="powergrab" 
+    file="/powergrab/src/main/java/uk/ac/ed/inf/powergrab/Direction.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="372" width="119" x="348" y="187"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="10" language="java" name="uk.ac.ed.inf.powergrab.Powerstation" project="powergrab" 
+    file="/powergrab/src/main/java/uk/ac/ed/inf/powergrab/Powerstation.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="143" width="276" x="1236" y="931"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="uk.ac.ed.inf.powergrab.SeparateStations" project="powergrab" 
+    file="/powergrab/src/main/java/uk/ac/ed/inf/powergrab/SeparateStations.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="82" width="123" x="1610" y="963"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="12">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="13" name="sepLocations">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="14" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="15">    
+    <bendpoint x="1044" y="394"/>    
+    <bendpoint x="824" y="492"/>    
+    <bendpoint x="810" y="878"/>    
+    <bendpoint x="857" y="1020"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="16" name="moveslist">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="17" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="18">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="19" name="currentmap">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="20" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="21">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="22" name="positionset">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="23" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="24">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="25" name="pos">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="26" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="27">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="28" name="currentmap">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="29" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="30">    
+    <bendpoint x="1337" y="533"/>    
+    <bendpoint x="1361" y="636"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="31" name="locations">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="32" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="33">    
+    <bendpoint x="1535" y="1100"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="34" name="negative">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="35" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="36">    
+    <bendpoint x="1133" y="1005"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="37" name="psarray">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="38" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="39">    
+    <bendpoint x="1432" y="540"/>    
+    <bendpoint x="1478" y="742"/>    
+    <bendpoint x="1497" y="885"/>    
+    <bendpoint x="1486" y="929"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="40" name="skippedStations">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="41" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="42">    
+    <bendpoint x="1567" y="1098"/>    
+    <bendpoint x="1494" y="1130"/>    
+    <bendpoint x="1438" y="1133"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="43" name="positive">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="44" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="45">    
+    <bendpoint x="605" y="522"/>    
+    <bendpoint x="534" y="869"/>    
+    <bendpoint x="534" y="1090"/>    
+    <bendpoint x="605" y="1266"/>    
+    <bendpoint x="629" y="1276"/>    
+    <bendpoint x="640" y="1284"/>    
+    <bendpoint x="649" y="1288"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="46" name="moveslist">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="47" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="48">    
+    <bendpoint x="1246" y="612"/>    
+    <bendpoint x="1198" y="861"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="49" name="negLocations">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="50" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <bendpoint x="1510" y="549"/>    
+    <bendpoint x="1570" y="764"/>    
+    <bendpoint x="1569" y="850"/>    
+    <bendpoint x="1566" y="905"/>    
+    <bendpoint x="1525" y="1026"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="52" name="posLocations">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="53" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="54">    
+    <bendpoint x="648" y="962"/>    
+    <bendpoint x="646" y="1012"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="55" name="updatedpos">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="56" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
